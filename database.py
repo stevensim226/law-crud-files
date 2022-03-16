@@ -1,11 +1,12 @@
 import psycopg2
+import os
 from datetime import datetime
 
 DB_CONN = conn = psycopg2.connect(
-    dbname='crud_law',
-    user='postgres',
-    host='localhost',
-    password='postgres'
+    dbname=os.environ.get("DB_NAME"),
+    user=os.environ.get("DB_USER"),
+    host=os.environ.get("DB_HOST"),
+    password=os.environ.get("DB_PASSWORD")
 )
 DB_CURR = DB_CONN.cursor()
 DB_CURR.execute("CREATE TABLE IF NOT EXISTS notes (title VARCHAR(50), note VARCHAR(1000));")
