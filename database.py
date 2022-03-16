@@ -1,6 +1,16 @@
+import psycopg2
 from datetime import datetime
 
 DATABASE = []
+DB_CONN = conn = psycopg2.connect(
+    dbname='crud_law',
+    user='postgres',
+    host='localhost',
+    password='postgres'
+)
+DB_CURR = DB_CONN.cursor()
+DB_CURR.execute("CREATE TABLE IF NOT EXISTS notes (title VARCHAR(50), note VARCHAR(1000));")
+DB_CONN.commit()
 
 class Note:
     def __init__(self, title, note):
@@ -14,28 +24,24 @@ class Note:
         }
 
 def select_all():
-    return [note.serialize() for note in DATABASE]
+    DB_CURR.execute("SELECT title, note FROM notes;")
+    return [Note(title, note).serialize() for title, note in DB_CURR.fetchall()]
 
 def create_note(title, note):
+    DB_CURR.execute(f"INSERT INTO notes (title, note) VALUES ('{title}', '{note}')")
+    DB_CONN.commit()
     new_note = Note(title, note)
-    DATABASE.append(new_note)
     return new_note.serialize()
 
 def delete_note(title):
-    for note in DATABASE:
-        if note.title == title:
-            DATABASE.remove(note)
-            return note.serialize()
-    else:
-        return None
+    DB_CURR.execute(f"DELETE FROM notes WHERE title = '{title}'")
+    DB_CONN.commit()
+    return None
 
 def update_note(title, note):
-    for notecls in DATABASE:
-        if notecls.title == title:
-            notecls.note = note
-            return notecls.serialize()
-    else:
-        return None
+    DB_CURR.execute(f"UPDATE notes SET note = '{note}' WHERE title = '{title}'")
+    DB_CONN.commit()
+    return None
 
 def save_pict(file):
     time_str = datetime.now().strftime("%Y%m%d-%H%M%S")
