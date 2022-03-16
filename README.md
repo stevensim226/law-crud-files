@@ -14,14 +14,14 @@ cURL command for DELETE operation
 ```
 curl -X DELETE http://127.0.0.1:8000/delete-note \
    -H 'Content-Type: application/json' \
-   -d '{"title":"Goodbye World"}'
+   -d '{"title":"Hello World"}'
 ```
 
 cURL command for UPDATE operation
 ```
 curl -X PUT http://127.0.0.1:8000/update-note \
    -H 'Content-Type: application/json' \
-   -d '{"title":"Goodbye World", "note":"Another Content"}'
+   -d '{"title":"Something Else", "note":"Another Content"}'
 ```
 
 cURL command for CREATE file operation

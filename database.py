@@ -1,7 +1,6 @@
 import psycopg2
 from datetime import datetime
 
-DATABASE = []
 DB_CONN = conn = psycopg2.connect(
     dbname='crud_law',
     user='postgres',
