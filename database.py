@@ -24,7 +24,7 @@ class Note:
         }
 
 def select_all():
-    DB_CURR.execute("SELECT title, note FROM notes;")
+    DB_CURR.execute("SELECT DISTINCT(title, note) FROM notes;")
     return [Note(title, note).serialize() for title, note in DB_CURR.fetchall()]
 
 def create_note(title, note):
